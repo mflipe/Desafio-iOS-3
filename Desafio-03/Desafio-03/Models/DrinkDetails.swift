@@ -18,23 +18,20 @@ extension DrinkDetails {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let ingredientsDictionary = try container.decode([String: String?].self)
-        
+
         var index = 1
         var ingredients: [Ingredient] = []
-        
+
         while let ingredient = ingredientsDictionary["strIngredient\(index)"] as? String,
-              let measure = ingredientsDictionary["strMeasure\(index)"] as? String,
-              !ingredient.isEmpty,
-              !measure.isEmpty {
-            
-            ingredients.append(.init(
-                name: ingredient,
-                measure: measure)
+               let measure = ingredientsDictionary["strMeasure\(index)"] as? String,
+               !ingredient.isEmpty,
+               !measure.isEmpty {
+            ingredients.append(.init(name: ingredient,
+                                     measure: measure)
             )
-            
             index += 1
         }
-        
+
         self.id = ingredientsDictionary["idDrink"] as? String ?? ""
         self.ingredients = ingredients
         self.drinkName = ingredientsDictionary["strDrink"] as? String ?? ""
@@ -43,5 +40,5 @@ extension DrinkDetails {
         self.thumb = ingredientsDictionary["strDrinkThumb"] as? String ?? ""
         self.category = ingredientsDictionary["strCategory"] as? String ?? ""
     }
-    
+
 }

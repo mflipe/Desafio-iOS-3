@@ -8,20 +8,20 @@
 import Foundation
 
 class DrinksViewModel: ObservableObject {
-    @Published var grid:Bool = true
+    @Published var grid: Bool = true
     @Published var drinks: [Drink] = []
     let service: API?
-    
+
     init(service: API = CocktailAPI()) {
         self.service = service
         getDrinks()
     }
-    
+
     func getDrinks() {
         service?.getDrinks { response in
             if let drinks = response?.drinks {
                 self.drinks = drinks
             }
         }
-    }    
+    }
 }

@@ -10,12 +10,13 @@ import SDWebImageSwiftUI
 
 struct BookmarkView: View {
     @ObservedObject var bookmarkedDrinks: BookmarkedDrinksViewModel
-    @FetchRequest(entity: FavoriteDrink.entity(), sortDescriptors: []) var entitiesFavorited: FetchedResults<FavoriteDrink>
+    @FetchRequest(entity: FavoriteDrink.entity(),
+                  sortDescriptors: []) var entitiesFavorited: FetchedResults<FavoriteDrink>
 
     var body: some View {
         VStack {
             if self.bookmarkedDrinks.grid {
-                bookmarkedGridViewFormat(drinks: FavoriteDrinkToBookmarkedModel(entities: entitiesFavorited))
+                bookmarkedGridViewFormat(drinks: favoriteDrinkToBookmarkedModel(entities: entitiesFavorited))
                     .toolbar {
                         Button {
                             self.bookmarkedDrinks.grid = false
@@ -24,7 +25,7 @@ struct BookmarkView: View {
                         }
                     }
             } else {
-                bookmarkedListViewFormat(drinks: FavoriteDrinkToBookmarkedModel(entities: entitiesFavorited))
+                bookmarkedListViewFormat(drinks: favoriteDrinkToBookmarkedModel(entities: entitiesFavorited))
                     .toolbar {
                         Button {
                             self.bookmarkedDrinks.grid = true
@@ -38,10 +39,10 @@ struct BookmarkView: View {
 }
 
 extension BookmarkView {
-    
-    func FavoriteDrinkToBookmarkedModel(entities: FetchedResults<FavoriteDrink>) -> [BookmarkedModel] {
+
+    func favoriteDrinkToBookmarkedModel(entities: FetchedResults<FavoriteDrink>) -> [BookmarkedModel] {
         var detailsView = [BookmarkedModel]()
-        
+
         entitiesFavorited.forEach { value in
             detailsView.append(BookmarkedModel(
                 id: value.drinkId ?? "",
@@ -52,14 +53,14 @@ extension BookmarkView {
                 thumb: value.urlImage ?? "")
             )
         }
-        
+
         return detailsView
     }
-    
+
 }
 
-//struct ContentView_Previews: PreviewProvider {
+// struct ContentView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DrinksView(viewModel: DrinksViewModel())
 //    }
-//}
+// }
